@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Http\Requests\MakeLoginRequest;
 use Illuminate\Http\Request;
 
 class LoginController extends Controller
@@ -13,11 +13,9 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-    public function login()
+    public function login(MakeLoginRequest $request)
     {
-        if($user = User::query()->where('email', '=', request()->email)->first())
-        {
-            auth()->login($user);
+        if ($request->attemp()) {
             return to_route('dashboard');
         }
 
